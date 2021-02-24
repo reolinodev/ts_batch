@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script th:src="@{/library/jquery/jquery-2.1.1.min.js}"></script>
+    <script th:src="@{/library/jquery/jquery-ui-1.10.3.min.js}"></script>
+    <script>
+      //부산 맛집 파라미터 설정
+      function callFoodApi() {
+        $('#ifrm #code').val('food');
+        apiCall();
+      }
+
+      //부산 명소 파라미터 설정
+      function callAttrApi() {
+        $('#ifrm #code').val('attr');
+        apiCall();
+      }
+
+      //API 호출
+      function apiCall() {
+        var params = $('#ifrm').serialize();
+
+        $.ajax({
+          type: 'post',
+          url: '/open_api/proc',
+          data: params,
+          dataType: 'json',
+          async: false,
+          success: function (data) {},
+          error: function () {
+            alert('Ajax Failed');
+          },
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <p>#공공데이터 수동 호출</p>
+    <ul>
+      <li>부산 맛집 : <button onclick="callFoodApi()">호출</button></li>
+      <li>부산 명소 : <button onclick="callAttrApi()">호출</button></li>
+    </ul>
+
+    <form id="ifrm" action="#" method="post" enctype="multipart/form-data">
+      <input type="hidden" id="code" name="code" value="" />
+    </form>
+  </body>
+</html>
