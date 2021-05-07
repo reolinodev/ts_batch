@@ -37,9 +37,13 @@
     </delete>
 
 	<insert id="place_save" parameterType="map">
-        INSERT INTO TB_PLACE(AREA, GUBUN, UC_SEQ)
-		VALUES( #{area}, #{gubun}, #{uc_seq})
-		on DUPLICATE KEY UPDATE MODIFY_DATE = CURDATE()
+		<selectKey resultType="int" keyProperty="place_id" order="BEFORE">
+			SELECT COUNT(*) + 1 FROM TB_PLACE
+		</selectKey>
+
+        INSERT INTO TB_PLACE(AREA, GUBUN, UC_SEQ,PLACE_ID)
+		VALUES( #{area}, #{gubun}, #{uc_seq}, #{place_id})
+		ON DUPLICATE KEY UPDATE MODIFY_DATE = CURDATE()
     </insert>
 
 </mapper>
